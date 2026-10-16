@@ -9,7 +9,7 @@ Number = Union[int, Fraction]
 class Point:
     name: str
     def __post_init__(self):
-        if not self.name or not (self.name[0].isalpha() or self.name[0] == "_"):
+        if not self.name.isidentifier():
             raise ValueError("invalid point name")
 
 @dataclass(frozen=True)

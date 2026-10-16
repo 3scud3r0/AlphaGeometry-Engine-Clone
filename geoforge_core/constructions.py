@@ -9,7 +9,7 @@ def intersect_lines(a, b, c, d):
     from .degeneracy import require_distinct
     require_distinct((a.x,a.y),(b.x,b.y))
     require_distinct((c.x,c.y),(d.x,d.y))
-    return Line.through(a,b).intersection(Line.through(c,d))
+    return Line.through(a,b).intersect(Line.through(c,d))
 
 def midpoint_point(a,b):
     return midpoint(a,b)
@@ -19,7 +19,7 @@ def reflect_point_about_point(a,center):
 
 def perpendicular_foot(a,b,c):
     from geoforge_upgrade_suite.geometry_exact import Line
-    return Line.through(b,c).project(a)
+    return Line.through(b,c).projection(a)
 
 def evaluate_midpoint(a,b,c):
     return squared_distance(a, midpoint(b,c)) == 0

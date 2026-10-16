@@ -147,3 +147,15 @@ Read the [technical roadmap](docs/ROADMAP_AG2_E_UNIVERSALIDADE.md) for a detaile
 ## Contributing and reproducibility
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md). A feature should only be marked *validated* when it has executable tests and, for mathematical inferences, a proof certificate or a valid refutation. Please report unsupported theorem families as `unknown`, rather than presenting them as disproved.
+
+## New modular architecture (experimental PR)
+
+The packages `geoforge_core/`, `geoforge_prover/`, `geoforge_search/`, `geoforge_data/`, `geoforge_ml/`, `geoforge_formalization/`, and `geoforge_benchmarks/` expose independent implementations or adapters of **all 57 proposed module paths** in the roadmap. These are *not* 57 complete reproductions of corresponding AlphaGeometry 2 components; several expose only a verified subset.
+
+```bash
+python -m pytest -q tests_modular/
+python geoforge_modular_cli.py prove --given 'midp d a b' --given 'midp e a c' --given 'ncoll a b c' --goal 'para d e b c' --out example.json
+python geoforge_modular_cli.py check --path example.json
+```
+
+See [the implementation status](docs/IMPLEMENTATION_STATUS_2026_10.md) for concrete coverage and blockers. **No AG2 benchmark parity is claimed.**
