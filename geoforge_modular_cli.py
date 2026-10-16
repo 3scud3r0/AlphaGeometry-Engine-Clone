@@ -40,7 +40,18 @@ def main(argv=None):
     solvep.add_argument("--out",required=False)
     checkp=commands.add_parser("check")
     checkp.add_argument("--path",required=True)
+    official=commands.add_parser("reference",help="Run vendored official AG2 DDAR symbolic core")
+    official.add_argument("--file",required=True,help="Formal AG2 problem with diagram coordinates")
+    official.add_argument("--timeout",type=float,default=30.)
     args=parser.parse_args(argv)
+    if args.command=="reference":
+        from geoforge_prover.ddar2_reference import prove_with_reference
+        from dataclasses import asdict
+        text=Path(args.file).read_text(encoding="utf-8")
+        outcome=asdict(prove_with_reference(text,timeout=args.timeout))
+        print(json.dumps(outcome,sort_keys=True))
+        return 0 if outcome["result"]=="deduced" else 2
+
     if args.command=="check":
         good=verify_json(Path(args.path).read_text(encoding="utf-8"))
         print(json.dumps({"verified":good}))
