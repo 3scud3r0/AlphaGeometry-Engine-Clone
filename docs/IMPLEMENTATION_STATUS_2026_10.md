@@ -40,3 +40,23 @@ python geoforge_modular_cli.py check --path proof.json
 - https://github.com/google-deepmind/alphageometry2/blob/main/elimination.py
 
 A implementação pública inclui o motor simbólico, não os modelos proprietários e toda a infraestrutura de treinamento/busca. Paridade com o sistema completo requer reproduzir capacidades e resultados verificáveis, não simplesmente portar arquivos.
+
+## Latest update — vendored public DDAR2 symbolic core
+
+The PR additionally includes the original source files `ddar.py`, `elimination.py`,
+`numericals.py`, `parse.py`, `test.py` and `LICENSE` from
+`google-deepmind/alphageometry2` in `vendor/alphageometry2_symbolic/`.
+They are distributed under the upstream Apache-2.0 license with a provenance manifest.
+A new `geoforge_prover/ddar2_reference.py` invokes the reference implementation
+in a separate Python process, with a timeout and explicit status codes.
+
+**Claims permitted:** this repository now contains the publicly released AG2 DDAR
+symbolic source and can invoke it for formalized problems with coordinates.
+
+**Claims not permitted:** the GeoForge independent solver is not yet semantically
+equivalent to that source, no Gemini weights are included, no published SKEST
+full-system search has been reproduced, and 30/30 IMO-AG-30 has not been
+verified in the target repository.
+
+Local adapter subprocess tests passed 5/5 in a mock upstream environment;
+the real reference-example CI job must finish before declaring its success.

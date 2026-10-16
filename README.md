@@ -159,3 +159,30 @@ python geoforge_modular_cli.py check --path example.json
 ```
 
 See [the implementation status](docs/IMPLEMENTATION_STATUS_2026_10.md) for concrete coverage and blockers. **No AG2 benchmark parity is claimed.**
+
+## Public AlphaGeometry 2 DDAR reference engine (vendored)
+
+A copy of the **unmodified public symbolic reference files** lives in
+[`vendor/alphageometry2_symbolic/`](vendor/alphageometry2_symbolic/UPSTREAM.md).
+Google LLC's original Apache-2.0 notices are retained. This is **upstream code**,
+not a GeoForge reimplementation. This integration requires NumPy but no neural training.
+
+```bash
+# Run upstream's provided examples (not a blind official benchmark)
+python -m geoforge_prover.ddar2_reference examples --limit 3 --timeout 90
+
+# Run a user-supplied AG2 problem with numeric diagram coordinates
+python geoforge_modular_cli.py reference --file problem.ag2 --timeout 60
+
+# Run isolated bridge regression + small independent proof checker
+python -m pytest -q tests_modular/
+```
+
+Reference adapter states: `deduced`, `unknown`, `error`, `timeout`,
+`unavailable`. **Deduced** means the upstream DDAR engine derived the requested
+goal from the supplied formal premises/coordinates. It does not imply a standalone
+proof certificate with all input axioms independently checked.
+
+The full AG2 research system uses neural auxiliary-construction proposals and
+shared-knowledge search beyond the published DDAR core. This repository **does not
+claim AlphaGeometry 2 full-system parity or universal geometry solving**.
