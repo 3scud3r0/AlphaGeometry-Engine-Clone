@@ -186,3 +186,22 @@ proof certificate with all input axioms independently checked.
 The full AG2 research system uses neural auxiliary-construction proposals and
 shared-knowledge search beyond the published DDAR core. This repository **does not
 claim AlphaGeometry 2 full-system parity or universal geometry solving**.
+
+## Model-free auxiliary search using the upstream symbolic DDAR core
+
+The new `geoforge_search/reference_auxiliary.py` performs a **bounded, deterministic**
+search over rationally constructed midpoints, line-line intersections and
+perpendicular feet, each with geometry-correct construction predicates. It
+uses the vendored public DDAR2 to test the augmented diagram. No pretrained
+neural weights or training step are needed.
+
+```bash
+python -m geoforge_search.reference_auxiliary --file problem.ag2 \\
+  --max-candidates 60 --seconds 60 --per-candidate 8
+```
+
+Possible results: `deduced_without_aux`, `deduced_with_aux`, `unknown`,
+`timeout`, and `reference_error`/`reference_unavailable`. Only
+successful upstream deductions are called deduced. These are not independent
+formal proof certificates, and this limited depth-one search is not AG2's
+full neural/SKEST machinery.

@@ -60,3 +60,18 @@ verified in the target repository.
 
 Local adapter subprocess tests passed 5/5 in a mock upstream environment;
 the real reference-example CI job must finish before declaring its success.
+
+## Model-free DDAR2 auxiliary construction search
+
+`geoforge_search/reference_auxiliary.py` enumerates exact rational midpoints,
+line intersections and perpendicular feet, synthesizing valid construction
+predicates and delegating each augmented formal diagram to the vendored
+public DDAR2. It tracks a global deadline, caps candidate count and never
+labels an exhausted or timed-out search as a refutation.
+
+6 mock reference/geometry regressions for this module passed locally. The
+separate real DDAR2 example check is still pending remote GitHub Actions.
+
+**Remaining critical gaps:** multi-step/general auxiliary construction search,
+full SKEST with shared subgoals, model inference/policy training, coverage of
+all AG2 formalization cases, and independently reproduced official results.
