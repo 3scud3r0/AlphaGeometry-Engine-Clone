@@ -19,6 +19,8 @@ def check_predicate(predicate: Predicate):
         raise GeometryTypeError(f"{predicate.kind}: expected {ARITY[predicate.kind]} points")
     if predicate.kind not in ARITY and predicate.kind not in EXPRESSION_PREDICATES:
         raise GeometryTypeError(f"unsupported predicate: {predicate.kind}")
+    if predicate.kind in ARITY and predicate.constants:
+        raise GeometryTypeError(f"{predicate.kind}: unexpected numeric constants")
     if any(not x.isidentifier() for x in predicate.points):
         raise GeometryTypeError("invalid point symbol")
     return predicate
