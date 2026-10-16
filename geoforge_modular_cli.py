@@ -5,13 +5,14 @@ import json
 from pathlib import Path
 from geoforge_core.parser_ag2 import parse_predicate
 from geoforge_core.canonical import canonical
+from geoforge_core.type_system import check_predicate
 from geoforge_prover.closure import ClosureEngine
 from geoforge_prover.proof_kernel import Proof,ProofStep,ProofKernel
 from geoforge_prover.certificates import dump,verify_json
 
 def solve(givens,goal):
-    assumptions=tuple(parse_predicate(s) for s in givens)
-    target=parse_predicate(goal)
+    assumptions=tuple(check_predicate(parse_predicate(s)) for s in givens)
+    target=check_predicate(parse_predicate(goal))
     engine=ClosureEngine(assumptions)
     graph=engine.run()
     if not graph.contains(target):return None
