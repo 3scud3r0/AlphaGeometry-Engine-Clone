@@ -23,7 +23,9 @@ jobs:
       - name: Compile all committed Python files
         run: python -m compileall -q geoforge.py geoforge_upgrade_suite geoforge_7fases_benchmark.py
       - name: Deterministic proof regression
-        run: python EXECUTAR_BENCHMARK_GEOFORGE_SEM_TREINO.py --mode quick --out local-results/quick.json
+        run: |
+          mkdir -p local-results
+          python EXECUTAR_BENCHMARK_GEOFORGE_SEM_TREINO.py --mode quick --out local-results/quick.json
       - name: Extended stress benchmark (manual only)
         if: github.event_name == 'workflow_dispatch' && inputs.stress
         run: python EXECUTAR_BENCHMARK_GEOFORGE_SEM_TREINO.py --mode stress --out local-results/stress.json
