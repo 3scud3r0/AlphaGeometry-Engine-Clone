@@ -2,6 +2,7 @@
 from dataclasses import dataclass
 from geoforge_core.ast import Predicate
 from geoforge_core.canonical import canonical
+from geoforge_core.type_system import check_predicate, GeometryTypeError
 from .ddar2_rules import default_rules
 from .rule_compiler import match_rule
 
@@ -21,6 +22,16 @@ class ProofKernel:
     def __init__(self,rules=None):
         self.rules={r.name:r for r in (default_rules() if rules is None else rules)}
     def check(self,proof):
+        # Reject malformed facts even when a forged certificate repeats one
+        # verbatim as a supposed premise.
+        try:
+            for p in (*proof.premises,proof.goal):
+                check_predicate(p)
+            for step in proof.steps:
+                check_predicate(step.conclusion)
+                for parent in step.parents: check_predicate(parent)
+        except (GeometryTypeError,ValueError,TypeError):
+            return False
         known={canonical(p) for p in proof.premises}
         for step in proof.steps:
             claim=canonical(step.conclusion)
