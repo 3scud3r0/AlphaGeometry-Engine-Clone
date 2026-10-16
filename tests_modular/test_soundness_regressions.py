@@ -95,3 +95,36 @@ def test_modular_cli_rejects_extra_numeric_arguments():
 def test_independent_kernel_rejects_malformed_assumption_certificate():
     bad = Predicate("cong", ("a", "b", "c", "d"), (Fraction(5),))
     assert not ProofKernel().check(Proof((bad,), bad, ()))
+
+
+@pytest.mark.parametrize(
+    ("kind", "args", "expected"),
+    (
+        ("coll", ("a", "m", "b"), True),
+        ("para", ("a", "b", "c", "d"), True),
+        ("para", ("a", "b", "a", "c"), False),
+        ("perp", ("a", "b", "a", "c"), True),
+        ("perp", ("a", "b", "c", "d"), False),
+        ("cong", ("a", "b", "c", "d"), True),
+        ("cong", ("a", "b", "a", "d"), False),
+        ("midp", ("m", "a", "b"), True),
+        ("midp", ("c", "a", "b"), False),
+        ("overlap", ("a", "a"), True),
+        ("cyclic", ("a", "b", "c", "d"), True),
+        ("cyclic", ("a", "b", "c", "z"), False),
+        ("eqratio", ("a", "b", "c", "d", "a", "c", "b", "d"), True),
+    ),
+)
+def test_coordinate_compiler_agrees_with_exact_evaluator_when_guards_hold(kind, args, expected):
+    points = {
+        "a": (0, 0), "b": (2, 0), "c": (0, 2), "d": (2, 2),
+        "m": (1, 0), "z": (5, 4),
+    }
+    evaluator = ExactFactEvaluator(points)
+    compiler = CoordinatePredicateCompiler(tuple(points))
+    compiled = compiler.compile(kind, args)
+    assert all(evaluator.check(guard) for guard in compiled.nondegeneracy)
+    values = [coord for name in compiler.symbols.names for coord in points[name]]
+    polynomial_truth = all(p.eval(values) == 0 for p in compiled.polynomials)
+    assert evaluator.check(kind + " " + " ".join(args)) is expected
+    assert polynomial_truth == expected
