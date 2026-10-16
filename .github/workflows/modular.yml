@@ -1,0 +1,25 @@
+name: Modular kernel checks
+on:
+  push:
+    branches: ["feat/modular-seven-phase-engine-20261016"]
+  pull_request:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Compile modular code
+        run: python -m compileall -q geoforge_core geoforge_prover geoforge_search geoforge_data geoforge_ml geoforge_formalization geoforge_benchmarks geoforge_modular_cli.py
+      - name: Test new modules
+        run: python -m pytest -q tests_modular/
+      - name: Prove and independently check a theorem
+        run: |
+          python geoforge_modular_cli.py prove --given 'midp d a b' --given 'midp e a c' --given 'ncoll a b c' --goal 'para d e b c' --out /tmp/midline.json
+          python geoforge_modular_cli.py check --path /tmp/midline.json
