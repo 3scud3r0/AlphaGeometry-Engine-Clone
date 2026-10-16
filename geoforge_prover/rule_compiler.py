@@ -3,7 +3,8 @@ from geoforge_core.ast import Predicate
 from geoforge_core.canonical import canonical
 
 def match(pattern,fact,subst):
-    if pattern.kind!=fact.kind or len(pattern.points)!=len(fact.points):
+    if (pattern.kind!=fact.kind or len(pattern.points)!=len(fact.points)
+            or pattern.constants!=fact.constants):
         return None
     subst=dict(subst)
     for a,b in zip(pattern.points,fact.points):
