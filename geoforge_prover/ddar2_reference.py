@@ -83,12 +83,15 @@ def official_examples(*, timeout: float = 10.) -> dict:
     return {"without_aux":tuple(tuple(x) for x in raw["without_aux"]),
             "with_aux":tuple(tuple(x) for x in raw["with_aux"])}
 
-def evaluate_examples(*, limit: int = 3, timeout: float = 30.) -> dict:
+def evaluate_examples(*, limit: int = 3, timeout: float = 30., category: str = "without_aux") -> dict:
     if limit < 1: raise ValueError("limit must be positive")
+    if category not in ("without_aux","with_aux","both"):
+        raise ValueError("invalid example category")
     examples=official_examples()
-    items=list(examples["without_aux"][:limit])
-    details=[{"id":name,**asdict(prove_with_reference(src,timeout=timeout))}
-             for name,src in items]
+    groups=("without_aux","with_aux") if category=="both" else (category,)
+    items=[(group,name,src) for group in groups for name,src in examples[group][:limit]]
+    details=[{"group":group,"id":name,**asdict(prove_with_reference(src,timeout=timeout))}
+             for group,name,src in items]
     return {"tested":len(details),
             "deduced":sum(x["result"]=="deduced" for x in details),
             "results":details,
@@ -104,6 +107,7 @@ def main(argv=None):
     p.add_argument("--timeout",type=float,default=30.)
     e=commands.add_parser("examples")
     e.add_argument("--limit",type=int,default=3)
+    e.add_argument("--category",choices=("without_aux","with_aux","both"),default="without_aux")
     e.add_argument("--timeout",type=float,default=30.)
     ns=ap.parse_args(argv)
     if ns.command=="prove":
@@ -111,7 +115,7 @@ def main(argv=None):
         result=asdict(prove_with_reference(source,timeout=ns.timeout))
         print(json.dumps(result,ensure_ascii=False,sort_keys=True))
         return 0 if result["result"]=="deduced" else 2
-    result=evaluate_examples(limit=ns.limit,timeout=ns.timeout)
+    result=evaluate_examples(limit=ns.limit,timeout=ns.timeout,category=ns.category)
     print(json.dumps(result,ensure_ascii=False,sort_keys=True,indent=2))
     return 0 if result["tested"]==result["deduced"] else 2
 
