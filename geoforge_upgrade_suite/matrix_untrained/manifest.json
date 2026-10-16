@@ -1,0 +1,26 @@
+{
+  "cases": 5400,
+  "families": {
+    "equal_lengths": 600,
+    "exact_foot": 600,
+    "line_intersection": 600,
+    "line_translation": 600,
+    "nondegeneracy_guard": 600,
+    "rational_angle": 600,
+    "vector_midpoint": 600,
+    "witness_negative": 600,
+    "witness_positive": 600
+  },
+  "schema": "geoforge-untrained-matrix-v1",
+  "sha256": {
+    "test_equal_lengths.py": "5b8f6c7854afe30ba45934ca206095bbaab03c1942bb5568658a4bcf7e145db6",
+    "test_exact_foot.py": "7c4bd0fd9701ec7ccd73f3c05c8868081bb0889055b2dc5483076ea9ebb60099",
+    "test_line_intersection.py": "fd1d5382dcdb27c0c1dd2d6ff4b12388f8035583bc2d1ceb16bf9ef2db93933a",
+    "test_line_translation.py": "69cf64dd674ad4d8aa41333196787c325829ef1eacd3d6439c6b81f08e47cbca",
+    "test_nondegeneracy_guard.py": "48e2ada0eac1cc18a08b059d2ed4df2475d6fc0b048ab5ebd42233119825f29f",
+    "test_rational_angle.py": "6390406a30ddd84af90fbe714d29a4368506430d2708717a6a2a977e205bcfc3",
+    "test_vector_midpoint.py": "fc32d7e701600aa10b70287921e09bf383b4dad9c4030f040f28025e2644ba54",
+    "test_witness_negative.py": "1ee7185b42ded40a8e15c45351aa724fe3dbf742f2818810084606a920ce8fd9",
+    "test_witness_positive.py": "4be7bdfc5591d77b59990e764b14ed5b2cc71923a97d723f17a765a8874fb1a5"
+  }
+}

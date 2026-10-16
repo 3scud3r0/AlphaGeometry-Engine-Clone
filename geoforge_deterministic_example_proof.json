@@ -1,0 +1,50 @@
+{
+  "schema": "geoforge-deterministic-result-v1",
+  "status": "proved",
+  "goal": "para d e b c",
+  "hypotheses": [
+    "midp d a b",
+    "midp e a c",
+    "ncoll a b c"
+  ],
+  "method": "ddar_certified",
+  "certificate": {
+    "schema": "geoforge-deduction-wrapper-v1",
+    "certificate": {
+      "schema": "geoforge-proof-v1",
+      "assumptions": [
+        "midp d a b",
+        "midp e a c",
+        "ncoll a b c"
+      ],
+      "goal": "para b c d e",
+      "steps": [
+        {
+          "conclusion": "para b c d e",
+          "rule": "midline",
+          "premises": [
+            "midp d a b",
+            "midp e a c"
+          ],
+          "data": {}
+        }
+      ],
+      "metadata": {
+        "engine": "geoforge-certified-ddar2-extended",
+        "version": 2,
+        "checker": "ProofCheckerV2"
+      }
+    }
+  },
+  "unresolved_guards": [],
+  "counterexample": null,
+  "attempts": [
+    {
+      "method": "dd/verified",
+      "status": "proved",
+      "derived_facts": 12
+    }
+  ],
+  "elapsed_s": 0.019251,
+  "certificate_replayed": true
+}

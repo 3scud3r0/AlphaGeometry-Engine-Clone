@@ -1,0 +1,291 @@
+{
+  "schema": "geoforge-untrained-benchmark-v1",
+  "official_ag2_benchmark": false,
+  "total": 12,
+  "passed": 12,
+  "failed": 0,
+  "elapsed_s": 1.89977,
+  "cases": [
+    {
+      "case": "base_media",
+      "expected": "proved",
+      "actual": "proved",
+      "method": "ddar_certified",
+      "independent_verification": true,
+      "passed": true,
+      "elapsed_s": 0.02137,
+      "details": [
+        {
+          "method": "dd/verified",
+          "status": "proved",
+          "derived_facts": 15
+        }
+      ]
+    },
+    {
+      "case": "ponto_medio_congruencia",
+      "expected": "proved",
+      "actual": "proved",
+      "method": "polynomial_certificate",
+      "independent_verification": true,
+      "passed": true,
+      "elapsed_s": 0.00309,
+      "details": [
+        {
+          "method": "dd/verified",
+          "status": "not_proven",
+          "derived_facts": 2
+        },
+        {
+          "method": "buchberger/witness",
+          "status": "proved",
+          "reason": "exact polynomial identity",
+          "pairs": 0,
+          "reductions": 0,
+          "backends": {
+            "affine": 1,
+            "buchberger": 0
+          }
+        }
+      ]
+    },
+    {
+      "case": "ponto_medio_simetria",
+      "expected": "proved",
+      "actual": "proved",
+      "method": "ddar_certified",
+      "independent_verification": true,
+      "passed": true,
+      "elapsed_s": 0.00027,
+      "details": [
+        {
+          "method": "dd/verified",
+          "status": "proved",
+          "derived_facts": 2
+        }
+      ]
+    },
+    {
+      "case": "perpendicular_gera_perpendicular",
+      "expected": "proved",
+      "actual": "proved",
+      "method": "ddar_certified",
+      "independent_verification": true,
+      "passed": true,
+      "elapsed_s": 0.00019,
+      "details": [
+        {
+          "method": "dd/verified",
+          "status": "proved",
+          "derived_facts": 3
+        }
+      ]
+    },
+    {
+      "case": "transitividade_paralelas",
+      "expected": "proved",
+      "actual": "proved",
+      "method": "ddar_certified",
+      "independent_verification": true,
+      "passed": true,
+      "elapsed_s": 0.00072,
+      "details": [
+        {
+          "method": "dd/verified",
+          "status": "proved",
+          "derived_facts": 6
+        }
+      ]
+    },
+    {
+      "case": "conciclicidade",
+      "expected": "proved",
+      "actual": "proved",
+      "method": "ddar_certified",
+      "independent_verification": true,
+      "passed": true,
+      "elapsed_s": 0.0014,
+      "details": [
+        {
+          "method": "dd/verified",
+          "status": "proved",
+          "derived_facts": 14
+        }
+      ]
+    },
+    {
+      "case": "base_nao_perpendicular",
+      "expected": "counterexample",
+      "actual": "counterexample",
+      "method": "rational_model",
+      "independent_verification": true,
+      "passed": true,
+      "elapsed_s": 1.2581,
+      "details": [
+        {
+          "method": "dd/verified",
+          "status": "not_proven",
+          "derived_facts": 15
+        },
+        {
+          "method": "buchberger/witness",
+          "status": "unknown",
+          "reason": "nonzero normal form",
+          "pairs": 15,
+          "reductions": 18
+        },
+        {
+          "method": "saturation/certified",
+          "status": "unknown",
+          "reason": "reduction limit",
+          "pairs": 9
+        }
+      ]
+    },
+    {
+      "case": "triangulo_nao_colinear",
+      "expected": "counterexample",
+      "actual": "counterexample",
+      "method": "rational_model",
+      "independent_verification": true,
+      "passed": true,
+      "elapsed_s": 0.00343,
+      "details": [
+        {
+          "method": "dd/verified",
+          "status": "not_proven",
+          "derived_facts": 4
+        },
+        {
+          "method": "buchberger/witness",
+          "status": "unknown",
+          "reason": "empty ideal",
+          "pairs": 0,
+          "reductions": 0
+        },
+        {
+          "method": "saturation/certified",
+          "status": "unknown",
+          "reason": "nonzero normal form",
+          "pairs": 0
+        }
+      ]
+    },
+    {
+      "case": "paralelismo_nao_implica_perpendicularidade",
+      "expected": "counterexample",
+      "actual": "counterexample",
+      "method": "rational_model",
+      "independent_verification": true,
+      "passed": true,
+      "elapsed_s": 0.14302,
+      "details": [
+        {
+          "method": "dd/verified",
+          "status": "not_proven",
+          "derived_facts": 3
+        },
+        {
+          "method": "buchberger/witness",
+          "status": "unknown",
+          "reason": "nonzero normal form",
+          "pairs": 0,
+          "reductions": 8
+        },
+        {
+          "method": "saturation/certified",
+          "status": "unknown",
+          "reason": "nonzero normal form",
+          "pairs": 6
+        }
+      ]
+    },
+    {
+      "case": "congruencia_nao_implica_paralelismo",
+      "expected": "counterexample",
+      "actual": "counterexample",
+      "method": "rational_model",
+      "independent_verification": true,
+      "passed": true,
+      "elapsed_s": 0.00124,
+      "details": [
+        {
+          "method": "dd/verified",
+          "status": "not_proven",
+          "derived_facts": 1
+        },
+        {
+          "method": "buchberger/witness",
+          "status": "unknown",
+          "reason": "nonzero normal form",
+          "pairs": 0,
+          "reductions": 8
+        },
+        {
+          "method": "saturation/certified",
+          "status": "unknown",
+          "reason": "no nonzero guards",
+          "pairs": 0
+        }
+      ]
+    },
+    {
+      "case": "colinearidade_nao_implica_ortogonalidade",
+      "expected": "counterexample",
+      "actual": "counterexample",
+      "method": "rational_model",
+      "independent_verification": true,
+      "passed": true,
+      "elapsed_s": 0.02615,
+      "details": [
+        {
+          "method": "dd/verified",
+          "status": "not_proven",
+          "derived_facts": 1
+        },
+        {
+          "method": "buchberger/witness",
+          "status": "unknown",
+          "reason": "nonzero normal form",
+          "pairs": 0,
+          "reductions": 8
+        },
+        {
+          "method": "saturation/certified",
+          "status": "unknown",
+          "reason": "nonzero normal form",
+          "pairs": 6
+        }
+      ]
+    },
+    {
+      "case": "ponto_medio_nao_e_extremidade",
+      "expected": "counterexample",
+      "actual": "counterexample",
+      "method": "rational_model",
+      "independent_verification": true,
+      "passed": true,
+      "elapsed_s": 0.44073,
+      "details": [
+        {
+          "method": "dd/verified",
+          "status": "not_proven",
+          "derived_facts": 6
+        },
+        {
+          "method": "buchberger/witness",
+          "status": "unknown",
+          "reason": "nonzero normal form",
+          "pairs": 1,
+          "reductions": 3
+        },
+        {
+          "method": "saturation/certified",
+          "status": "unknown",
+          "reason": "nonzero normal form",
+          "pairs": 6
+        }
+      ]
+    }
+  ]
+}

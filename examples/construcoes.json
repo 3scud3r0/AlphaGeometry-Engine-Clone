@@ -1,0 +1,8 @@
+{
+  "points": {"a": [0, 0], "b": [4, 0], "c": [0, 4]},
+  "steps": [
+    {"name": "m", "operator": "midpoint", "args": ["a", "b"]},
+    {"name": "h", "operator": "orthocenter", "args": ["a", "b", "c"]},
+    {"name": "o", "operator": "circumcenter", "args": ["a", "b", "c"]}
+  ]
+}
