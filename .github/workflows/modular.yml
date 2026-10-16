@@ -27,3 +27,6 @@ jobs:
       - name: Official public DDAR2 reference smoke test
         timeout-minutes: 3
         run: python -m geoforge_prover.ddar2_reference examples --limit 1 --timeout 90
+
+      - name: Validate training-free auxiliary construction search
+        run: python -m pytest -q tests_modular/test_reference_auxiliary.py
