@@ -23,3 +23,7 @@ jobs:
         run: |
           python geoforge_modular_cli.py prove --given 'midp d a b' --given 'midp e a c' --given 'ncoll a b c' --goal 'para d e b c' --out /tmp/midline.json
           python geoforge_modular_cli.py check --path /tmp/midline.json
+
+      - name: Official public DDAR2 reference smoke test
+        timeout-minutes: 3
+        run: python -m geoforge_prover.ddar2_reference examples --limit 1 --timeout 90
