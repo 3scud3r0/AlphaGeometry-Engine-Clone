@@ -128,3 +128,20 @@ def test_coordinate_compiler_agrees_with_exact_evaluator_when_guards_hold(kind, 
     polynomial_truth = all(p.eval(values) == 0 for p in compiled.polynomials)
     assert evaluator.check(kind + " " + " ".join(args)) is expected
     assert polynomial_truth == expected
+
+
+@pytest.mark.parametrize(
+    "invalid",
+    (
+        "para a a c d", "perp a b c c", "npara a a c d",
+        "cyclic a b c a", "ncoll a b b", "noverlap a a",
+        "eqratio a a b c d e f g",
+    ),
+)
+def test_modular_type_checker_rejects_degenerate_facts(invalid):
+    from geoforge_core.parser_ag2 import parse_predicate
+
+    with pytest.raises(GeometryTypeError):
+        solve((invalid,), invalid)
+    forged = parse_predicate(invalid)
+    assert not ProofKernel().check(Proof((forged,), forged, ()))
