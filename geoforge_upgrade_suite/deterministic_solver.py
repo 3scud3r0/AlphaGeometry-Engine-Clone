@@ -44,7 +44,10 @@ class GuardLedger:
             kind,a=split_fact(text)
             self.facts.add((kind,a))
             if kind in ('distinct','noverlap') and len(a)==2:
-                self.distinct.add(_pair(*a))
+                if a[0]==a[1]:
+                    self.contradictions.append('self-distinctness is impossible: '+a[0])
+                else:
+                    self.distinct.add(_pair(*a))
             if kind=='ncoll' and len(a)==3:
                 t=frozenset(a)
                 if len(t)!=3:self.contradictions.append('ncoll has repeating points')
@@ -52,15 +55,24 @@ class GuardLedger:
                     self.ncoll.add(t)
                     self.distinct.update(_pair(x,y) for x,y in itertools.combinations(a,2))
             if kind=='cyclic' and len(a)==4:
-                for triple in itertools.combinations(a,3):
-                    if len(set(triple))==3:self.ncoll.add(frozenset(triple))
-                self.distinct.update(_pair(x,y) for x,y in itertools.combinations(a,2))
+                if len(set(a))!=4:
+                    self.contradictions.append('cyclic requires four distinct points')
+                else:
+                    self.ncoll.update(frozenset(t) for t in itertools.combinations(a,3))
+                    self.distinct.update(_pair(x,y) for x,y in itertools.combinations(a,2))
             if kind=='overlap' and len(a)==2:self.overlap.add(_pair(*a))
             if kind in ('para','perp') and len(a)==4:
-                self.distinct.update((_pair(a[0],a[1]),_pair(a[2],a[3])))
-            if kind=='coll' and len(a)==3:self.distinct.add(_pair(a[0],a[1]))
+                if a[0]==a[1] or a[2]==a[3]:
+                    self.contradictions.append(kind+' requires nonzero line directions')
+                else:
+                    self.distinct.update((_pair(a[0],a[1]),_pair(a[2],a[3])))
+            # Collinearity is a symmetric determinant identity, including
+            # repeated points. It cannot imply distinctness of any pair.
             if kind=='eqratio' and len(a)==8:
-                self.distinct.update(_pair(a[i],a[i+1]) for i in range(0,8,2))
+                if any(a[i]==a[i+1] for i in range(0,8,2)):
+                    self.contradictions.append('eqratio requires nonzero segments')
+                else:
+                    self.distinct.update(_pair(a[i],a[i+1]) for i in range(0,8,2))
             if kind=='midp' and len(a)==3:self.midpoints.append(a)
         self._derive()
     def _derive(self):
@@ -104,7 +116,9 @@ class ExactFactEvaluator:
         if k=='ncoll' and len(p)==3:
             return (p[1]-p[0]).cross(p[2]-p[0])!=0
         if k=='coll' and len(p)==3:
-            return p[0]!=p[1] and (p[1]-p[0]).cross(p[2]-p[0])==0
+            # Symmetric predicate: sorting/repeating names must not change truth.
+            # Nonzero line direction is a separate guard for line operations.
+            return (p[1]-p[0]).cross(p[2]-p[0])==0
         if k=='para' and len(p)==4:
             return p[0]!=p[1] and p[2]!=p[3] and (p[1]-p[0]).cross(p[3]-p[2])==0
         if k=='perp' and len(p)==4:

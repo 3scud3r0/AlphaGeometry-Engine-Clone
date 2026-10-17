@@ -71,8 +71,9 @@ class CoordinatePredicateCompiler:
         k=kind.lower();a=tuple(args);s=self.symbols
         if any(n not in s.index for n in a):raise KeyError('unknown point')
         if k=='coll' and len(a)==3:
-            return CoordinateEquation(k+' '+' '.join(a),(s.area2(*a),),
-                (f'distinct {a[0]} {a[1]}',))
+            # Collinearity is invariant under point permutations even if points
+            # coincide. Requiring distinct(a,b) here would break that symmetry.
+            return CoordinateEquation(k+' '+' '.join(a),(s.area2(*a),),())
         if k=='para' and len(a)==4:
             return CoordinateEquation(k+' '+' '.join(a),(s.det(*a),),
                 (f'distinct {a[0]} {a[1]}',f'distinct {a[2]} {a[3]}'))
@@ -96,8 +97,11 @@ class CoordinatePredicateCompiler:
                 x,y=s.xy(name)
                 mat.append((x*x+y*y,x,y,Polynomial.constant(s.nvars,1)))
             determinant=self._determinant(mat)
-            return CoordinateEquation(k+' '+' '.join(a),(determinant,),
-                ('ncoll '+' '.join(a[:3]),))
+            # The determinant alone also vanishes for repeated points.
+            # Match ExactFactEvaluator: cyclic means four DISTINCT concyclic points.
+            guards=('ncoll '+' '.join(a[:3]),)+tuple(
+                f'distinct {x} {y}' for x,y in combinations(a,2))
+            return CoordinateEquation(k+' '+' '.join(a),(determinant,),guards)
         if k=='eqratio' and len(a)==8:
             # Squared ratio equations are only necessary, not sufficient for
             # directed ratios; if lengths positive they are equivalent.
